@@ -19,6 +19,32 @@ function App() {
     },
   ])
 
+  const [showUserCreateMenu, setshowUserCreateMenu] = useState(false); //for opening and closing userCreateMenu
+
+  const [editUser, setEditUser] = useState(null); //editUser = null means we will be creating new user and editUser = user_data_ka_object means hum iss user data ko update krna chch re hain ... to mtlbb jb bhi kisi user card ke update button pe click hoga to hum editUser ki value uss user ke data ke equal set kar denge ...
+
+  const [formData, setFormData] = useState({
+    name: "",
+    profileURL: "",
+    role: "",
+    bio: "",
+    email: ""
+  })
+
+  // synchronizing formData to editUser(user selected for updation).
+  useEffect(() => {
+    if (editUser) {
+      setFormData({
+        name: editUser.name || "",
+        profileURL: editUser.profileURL || "",
+        role: editUser.role || "",
+        bio: editUser.bio || "",
+        email: editUser.email || ""
+      });
+    }
+  }, [editUser]);
+
+
   function renderUserCards() {
     axios.get("http://localhost:3000/api/users")
       .then((res) => {
@@ -27,43 +53,54 @@ function App() {
       })
   }
 
-  function createUserMenuAppear() {
-    let userCreateMenu = document.querySelector(".userCreateMenu");
-    userCreateMenu.style.display = "block"
-  }
-  function createUserMenuDisappear() {
-    let userCreateMenu = document.querySelector(".userCreateMenu");
-    userCreateMenu.style.display = "none"
-  }
-
-  function createUserHandler(e) {
-    e.preventDefault();
-    console.dir(e.target.elements)
-
-    const { name, profileURL, role, bio, email } = e.target.elements;
-
-    axios.post("http://localhost:3000/api/users", {
-      name: name.value,
-      profileURL: profileURL.value,
-      role: role.value,
-      bio: bio.value,
-      email: email.value
+  function resetForm() {
+    setFormData({
+      name: "",
+      profileURL: "",
+      role: "",
+      bio: "",
+      email: ""
     })
+  }
+
+
+  function userCreateHandler(e) {
+    e.preventDefault();
+
+    // For updating user :-
+    if (editUser) {
+      axios.patch(`http://localhost:3000/api/users/${editUser._id}`, formData)
+        .then(() => {
+          renderUserCards();
+          setEditUser(null);
+          setshowUserCreateMenu(false);
+          resetForm();
+        })
+    }
+
+    //for Creating user :-
+    else {
+      axios.post("http://localhost:3000/api/users", formData)
+        .then((res) => {
+          // console.log(res.data);
+          renderUserCards();
+          setshowUserCreateMenu(false);
+          resetForm();
+        })
+    }
+  }
+
+
+  function deleteUserHandler(userId) {
+    // console.log(userId);
+    axios.delete(`http://localhost:3000/api/users/${userId}`)
       .then((res) => {
         console.log(res.data);
         renderUserCards();
       })
   }
 
-  function deleteUserHandler(userId) {
-    // console.log(userId);
-    axios.delete(`http://localhost:3000/api/users/${userId}`)
-    .then((res)=>{
-      console.log(res.data);
-      renderUserCards();
-    })
-  }
-
+  //rendering user cards on relaod
   useEffect(() => {
     renderUserCards()
   }, [])
@@ -71,27 +108,59 @@ function App() {
   return (
     <>
       <div className='btnContainer'>
+        {/* Create User Card button :- */}
         <button
-          onClick={createUserMenuAppear}
+          onClick={() => setshowUserCreateMenu(true)}
           className='openMenu'>
           Create User Card
         </button>
       </div>
 
-      <div className="userCreateMenu">
+      {/* user create/update menu */}
+      <div className="userCreateMenu"
+        style={{ display: showUserCreateMenu ? "block" : "none" }}
+      >
+        {/* Close Create/update user menu button :- */}
         <button
-          onClick={createUserMenuDisappear}
+          onClick={() => {
+            setshowUserCreateMenu(false);
+            setEditUser(null);
+            resetForm();
+          }}
           className='closeMenu'>
           Close
         </button>
 
-        <form onSubmit={createUserHandler}>
-          <input name='name' type="text" placeholder='Enter name' />
-          <input name='profileURL' type="text" placeholder='Enter profileURL' />
-          <input name='role' type="text" placeholder='Enter role' />
-          <input name='bio' type="text" placeholder='Enter bio' />
-          <input name='email' type="text" placeholder='Enter email' />
-          <button onClick={createUserMenuDisappear}>Submit</button>
+        <form onSubmit={userCreateHandler}>
+          <input name='name' type="text" placeholder='Enter name' 
+          value = {formData.name}
+          onChange= {(e)=> setFormData({...formData, name: e.target.value})}
+            />
+
+          <input name='profileURL' type="text" placeholder='Enter profileURL' 
+          value = {formData.profileURL}
+          onChange= {(e)=> setFormData({...formData, profileURL: e.target.value})}
+            />
+
+          <input name='role' type="text" placeholder='Enter role' 
+          value = {formData.role}
+          onChange= {(e)=> setFormData({...formData, role: e.target.value})}
+            />
+
+          <input name='bio' type="text" placeholder='Enter bio' 
+          value = {formData.bio}
+          onChange= {(e)=> setFormData({...formData, bio: e.target.value})}
+            />
+
+          <input name='email' type="text" placeholder='Enter email' 
+          value = {formData.email}
+          onChange= {(e)=> setFormData({...formData, email: e.target.value})}
+            />
+
+          {/* Submit User details button */}
+          <button type='submit'>
+            {editUser ? "Update User" : "Create User"}
+          </button>
         </form>
       </div>
 
@@ -105,6 +174,7 @@ function App() {
             <h3>{user.email}</h3>
 
             <div className="buttons">
+              {/* Delete button */}
               <button
                 onClick={() => {
                   deleteUserHandler(user._id);
@@ -113,7 +183,16 @@ function App() {
                 Delete
               </button>
 
-              <button className="update">Update</button>
+
+              {/* Update button does 2 things*/}
+              <button
+                onClick={() => {
+                  setshowUserCreateMenu(true) // 1. Open editor form 
+                  setEditUser(user) // 2. Set editUser equal to user data
+                }}
+                className="update">
+                Update
+              </button>
             </div>
           </div>
         })}
