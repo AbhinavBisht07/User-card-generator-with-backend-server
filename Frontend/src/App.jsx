@@ -3,20 +3,20 @@ import axios from "axios";
 
 function App() {
   const [users, setUsers] = useState([
-    {
-      name: "Aman Kumar",
-      profileURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      role: "Fullstack Developer",
-      bio: "saasjfaf sdnasn ddasc,mf fojqq dd",
-      email: "abc@abc.com"
-    },
-    {
-      name: "Aman Kumar",
-      profileURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      role: "Fullstack Developer",
-      bio: "saasjfaf sdnasn ddasc,mf fojqq dd",
-      email: "abc@abc.com"
-    },
+    // {
+    //   name: "Aman Kumar",
+    //   profileURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    //   role: "Fullstack Developer",
+    //   bio: "saasjfaf sdnasn ddasc,mf fojqq dd",
+    //   email: "abc@abc.com"
+    // },
+    // {
+    //   name: "Aman Kumar",
+    //   profileURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    //   role: "Fullstack Developer",
+    //   bio: "saasjfaf sdnasn ddasc,mf fojqq dd",
+    //   email: "abc@abc.com"
+    // },
   ])
 
   const [showUserCreateMenu, setshowUserCreateMenu] = useState(false); //for opening and closing userCreateMenu
