@@ -4,11 +4,13 @@
 const express = require("express");
 const userModel = require("./models/user.model")
 const cors = require("cors");
+const path = require("path");
 
 
 const app = express();
 app.use(cors()) //server starts accepting cross origin requests ..
 app.use(express.json()) // middleware
+app.use(express.static("./public"));
 
 
 
@@ -69,5 +71,12 @@ app.patch("/api/users/:id", async (req, res)=>{
         message: "User's data updated successfully"
     })
 }) 
+
+
+// middleware :- ... if user/client used any API(route) instead of the already defined ones ... send this response...
+app.use("*name", (req,res)=>{
+    // res.send("This is wild card route");
+    res.sendFile(path.join(__dirname, "..", "/public/index.html"));
+})
 
 module.exports = app

@@ -132,30 +132,30 @@ function App() {
         </button>
 
         <form onSubmit={userCreateHandler}>
-          <input name='name' type="text" placeholder='Enter name' 
-          value = {formData.name}
-          onChange= {(e)=> setFormData({...formData, name: e.target.value})}
-            />
+          <input name='name' type="text" placeholder='Enter name'
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
 
-          <input name='profileURL' type="text" placeholder='Enter profileURL' 
-          value = {formData.profileURL}
-          onChange= {(e)=> setFormData({...formData, profileURL: e.target.value})}
-            />
+          <input name='profileURL' type="text" placeholder='Enter profileURL'
+            value={formData.profileURL}
+            onChange={(e) => setFormData({ ...formData, profileURL: e.target.value })}
+          />
 
-          <input name='role' type="text" placeholder='Enter role' 
-          value = {formData.role}
-          onChange= {(e)=> setFormData({...formData, role: e.target.value})}
-            />
+          <input name='role' type="text" placeholder='Enter role'
+            value={formData.role}
+            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+          />
 
-          <input name='bio' type="text" placeholder='Enter bio' 
-          value = {formData.bio}
-          onChange= {(e)=> setFormData({...formData, bio: e.target.value})}
-            />
+          <input name='bio' type="text" placeholder='Enter bio'
+            value={formData.bio}
+            onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+          />
 
-          <input name='email' type="text" placeholder='Enter email' 
-          value = {formData.email}
-          onChange= {(e)=> setFormData({...formData, email: e.target.value})}
-            />
+          <input name='email' type="text" placeholder='Enter email'
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
 
           {/* Submit User details button */}
           <button type='submit'>
@@ -167,11 +167,21 @@ function App() {
       <div className="users">
         {users.map((user) => {
           return <div className="userCard">
-            <img src={user.profileURL} alt="" />
+            {/* <img src={user.profileURL} alt="" />
             <h1>{user.name}</h1>
             <h3>{user.role}</h3>
             <p>{user.bio}</p>
-            <h3>{user.email}</h3>
+            <h3>{user.email}</h3> */}
+            <div className="top">
+              <img src={user.profileURL} alt="" />
+              <div>
+                <h1>{user.name}</h1>
+                <h3>{user.role}</h3>
+              </div>
+            </div>
+
+            <p>{user.bio}</p>
+            <h4>{user.email}</h4>
 
             <div className="buttons">
               {/* Delete button */}
