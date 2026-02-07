@@ -46,7 +46,7 @@ function App() {
 
 
   function renderUserCards() {
-    axios.get("http://localhost:3000/api/users")
+    axios.get("https://user-card-generator-with-backend-server.onrender.com/api/users")
       .then((res) => {
         // console.log(res.data.users);
         setUsers(res.data.users)
@@ -69,7 +69,7 @@ function App() {
 
     // For updating user :-
     if (editUser) {
-      axios.patch(`http://localhost:3000/api/users/${editUser._id}`, formData)
+      axios.patch(`https://user-card-generator-with-backend-server.onrender.com/api/users/${editUser._id}`, formData)
         .then(() => {
           renderUserCards();
           setEditUser(null);
@@ -80,7 +80,7 @@ function App() {
 
     //for Creating user :-
     else {
-      axios.post("http://localhost:3000/api/users", formData)
+      axios.post("https://user-card-generator-with-backend-server.onrender.com/api/users", formData)
         .then((res) => {
           // console.log(res.data);
           renderUserCards();
@@ -93,7 +93,7 @@ function App() {
 
   function deleteUserHandler(userId) {
     // console.log(userId);
-    axios.delete(`http://localhost:3000/api/users/${userId}`)
+    axios.delete(`https://user-card-generator-with-backend-server.onrender.com/api/users/${userId}`)
       .then((res) => {
         console.log(res.data);
         renderUserCards();
